@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "FREEZE",
+    "slug": "freeze",
+    "scheme": "freeze",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.cartefreeze.app"
+    },
+    "android": {
+      "package": "com.cartefreeze.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "FREEZE a besoin de la caméra pour scanner les QR codes des partenaires."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "FREEZE a besoin d'accéder à tes photos pour choisir un logo ou une photo de profil."
+        }
+      ]
+    ]
+  }
+}
