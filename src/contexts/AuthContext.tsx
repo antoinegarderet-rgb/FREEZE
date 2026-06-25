@@ -91,21 +91,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }): React
     const { data, error } = await supabase.auth.signUp({
       email: params.email,
       password: params.password,
+      options: {
+        data: {
+          first_name: params.firstName,
+          last_name: params.lastName,
+          phone: params.phone,
+          birth_date: params.birthDate,
+          certified_under_30: params.certifiedUnder30,
+          referred_by_code: params.referredByCode,
+        },
+      },
     });
     if (error) throw error;
     if (!data.user) throw new Error("La création du compte a échoué.");
-
-    const { error: profileError } = await supabase.from('profiles').insert({
-      id: data.user.id,
-      role: 'user',
-      first_name: params.firstName,
-      last_name: params.lastName,
-      phone: params.phone,
-      birth_date: params.birthDate,
-      certified_under_30: params.certifiedUnder30,
-      referred_by_code: params.referredByCode,
-    });
-    if (profileError) throw profileError;
+    // Le profil est créé côté serveur par le trigger `handle_new_user`
+    // (voir 0004_handle_new_user.sql), car signUp() ne renvoie pas de
+    // session tant que l'email n'est pas confirmé.
   };
 
   const signIn = async (email: string, password: string): Promise<void> => {
