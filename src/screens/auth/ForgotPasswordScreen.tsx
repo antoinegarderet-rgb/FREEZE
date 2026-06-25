@@ -39,7 +39,13 @@ export function ForgotPasswordScreen({ navigation }: Props): React.JSX.Element {
         <Text style={styles.description}>
           Entre ton email, on t&apos;envoie un lien pour réinitialiser ton mot de passe.
         </Text>
-        <InputField label="Email" placeholder="ton@email.com" value={email} onChangeText={setEmail} />
+        <InputField
+          label="Email"
+          placeholder="ton@email.com"
+          value={email}
+          onChangeText={setEmail}
+          icon={<Text style={styles.icon}>✉️</Text>}
+        />
         <Button
           label="Envoyer le lien"
           onPress={handleSubmit}
@@ -73,6 +79,9 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     marginTop: 8,
+  },
+  icon: {
+    fontSize: 16,
   },
   backLink: {
     textAlign: 'center',

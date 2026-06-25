@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Button } from '@/components/ui/Button';
@@ -30,6 +30,7 @@ export function ResetPasswordScreen({ navigation }: Props): React.JSX.Element {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const strength = useMemo(() => computeStrength(password), [password]);
   const confirmError =
@@ -65,7 +66,13 @@ export function ResetPasswordScreen({ navigation }: Props): React.JSX.Element {
             placeholder="Min. 8 caractères"
             value={password}
             onChangeText={setPassword}
-            secureTextEntry
+            secureTextEntry={!showPassword}
+            icon={<Text style={styles.icon}>🔒</Text>}
+            suffix={
+              <Pressable onPress={() => setShowPassword((v) => !v)}>
+                <Text style={styles.icon}>{showPassword ? '🙈' : '👁️'}</Text>
+              </Pressable>
+            }
           />
           {password.length > 0 && (
             <View>
@@ -92,8 +99,9 @@ export function ResetPasswordScreen({ navigation }: Props): React.JSX.Element {
             placeholder="••••••••"
             value={confirmPassword}
             onChangeText={setConfirmPassword}
-            secureTextEntry
+            secureTextEntry={!showPassword}
             error={confirmError}
+            icon={<Text style={styles.icon}>🔒</Text>}
           />
         </View>
         <Button
@@ -143,5 +151,8 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     marginTop: 22,
+  },
+  icon: {
+    fontSize: 16,
   },
 });

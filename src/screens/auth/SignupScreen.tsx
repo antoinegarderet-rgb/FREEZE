@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Button } from '@/components/ui/Button';
@@ -52,6 +52,7 @@ export function SignupScreen({ navigation }: Props): React.JSX.Element {
   const [acceptsMarketing, setAcceptsMarketing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const update = (key: keyof FormState, value: string): void => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -131,34 +132,50 @@ export function SignupScreen({ navigation }: Props): React.JSX.Element {
             value={form.email}
             onChangeText={(v) => update('email', v)}
             keyboardType="email-address"
+            icon={<Text style={styles.icon}>✉️</Text>}
           />
-          <InputField
-            label="Numéro de téléphone"
-            placeholder="6 12 34 56 78"
-            value={form.phone}
-            onChangeText={(v) => update('phone', v)}
-            keyboardType="phone-pad"
-          />
+          <View style={styles.phoneRow}>
+            <View style={styles.countryCode}>
+              <Text style={styles.countryCodeLabel}>🇫🇷 +33 ›</Text>
+            </View>
+            <View style={styles.phoneInput}>
+              <InputField
+                label="Numéro de téléphone"
+                placeholder="6 12 34 56 78"
+                value={form.phone}
+                onChangeText={(v) => update('phone', v)}
+                keyboardType="phone-pad"
+              />
+            </View>
+          </View>
           <InputField
             label="Date de naissance"
             placeholder="JJ/MM/AAAA"
             value={form.birthDate}
             onChangeText={(v) => update('birthDate', v)}
+            icon={<Text style={styles.icon}>🎂</Text>}
           />
           <InputField
             label="Mot de passe"
             placeholder="Min. 8 caractères"
             value={form.password}
             onChangeText={(v) => update('password', v)}
-            secureTextEntry
+            secureTextEntry={!showPassword}
+            icon={<Text style={styles.icon}>🔒</Text>}
+            suffix={
+              <Pressable onPress={() => setShowPassword((v) => !v)}>
+                <Text style={styles.icon}>{showPassword ? '🙈' : '👁️'}</Text>
+              </Pressable>
+            }
           />
           <InputField
             label="Confirmer le mot de passe"
             placeholder="••••••••"
             value={form.confirmPassword}
             onChangeText={(v) => update('confirmPassword', v)}
-            secureTextEntry
+            secureTextEntry={!showPassword}
             error={error ?? undefined}
+            icon={<Text style={styles.icon}>🔒</Text>}
           />
           <InputField
             label="Code parrain (optionnel)"
@@ -184,7 +201,9 @@ export function SignupScreen({ navigation }: Props): React.JSX.Element {
             label="Je veux recevoir les nouveaux spots et bons plans par email (1x/sem max)."
           />
         </View>
+      </ScrollView>
 
+      <View style={styles.bottomBar}>
         <Button
           label="Créer mon compte →"
           onPress={handleSubmit}
@@ -192,16 +211,14 @@ export function SignupScreen({ navigation }: Props): React.JSX.Element {
           disabled={!certifiesUnder30}
           loading={loading}
           variant={certifiesUnder30 ? 'primary' : 'locked'}
-          style={styles.submitButton}
         />
-
         <Text style={styles.footer}>
           Déjà inscrit ?{' '}
           <Text style={styles.footerLink} onPress={() => navigation.navigate('Login')}>
             Se connecter
           </Text>
         </Text>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
@@ -214,7 +231,7 @@ const styles = StyleSheet.create({
   content: {
     paddingHorizontal: 22,
     paddingTop: 18,
-    paddingBottom: 40,
+    paddingBottom: 24,
   },
   intro: {
     fontSize: 14,
@@ -244,12 +261,42 @@ const styles = StyleSheet.create({
   marketingCheckbox: {
     marginTop: 14,
   },
-  submitButton: {
-    marginTop: 22,
+  icon: {
+    fontSize: 16,
+  },
+  phoneRow: {
+    flexDirection: 'row',
+    gap: 8,
+    alignItems: 'flex-start',
+  },
+  countryCode: {
+    marginTop: 20,
+    backgroundColor: colors.s1,
+    borderRadius: 14,
+    paddingVertical: 13,
+    paddingHorizontal: 12,
+    borderWidth: 1.5,
+    borderColor: colors.border,
+  },
+  countryCodeLabel: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.text,
+  },
+  phoneInput: {
+    flex: 1,
+  },
+  bottomBar: {
+    backgroundColor: colors.s1,
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
+    paddingHorizontal: 22,
+    paddingTop: 14,
+    paddingBottom: 18,
   },
   footer: {
     textAlign: 'center',
-    marginTop: 18,
+    marginTop: 14,
     fontSize: 12,
     color: colors.t2,
   },

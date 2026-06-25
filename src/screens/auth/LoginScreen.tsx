@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Button } from '@/components/ui/Button';
@@ -20,6 +20,7 @@ export function LoginScreen({ navigation }: Props): React.JSX.Element {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (): Promise<void> => {
     setError(null);
@@ -52,14 +53,21 @@ export function LoginScreen({ navigation }: Props): React.JSX.Element {
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
+            icon={<Text style={styles.icon}>✉️</Text>}
           />
           <InputField
             label="Mot de passe"
             placeholder="••••••••"
             value={password}
             onChangeText={setPassword}
-            secureTextEntry
+            secureTextEntry={!showPassword}
             error={error ?? undefined}
+            icon={<Text style={styles.icon}>🔒</Text>}
+            suffix={
+              <Pressable onPress={() => setShowPassword((v) => !v)}>
+                <Text style={styles.icon}>{showPassword ? '🙈' : '👁️'}</Text>
+              </Pressable>
+            }
           />
           <Text style={styles.forgotLink} onPress={() => navigation.navigate('ForgotPassword')}>
             Mot de passe oublié ?
@@ -108,6 +116,9 @@ const styles = StyleSheet.create({
   },
   form: {
     gap: 14,
+  },
+  icon: {
+    fontSize: 16,
   },
   forgotLink: {
     textAlign: 'right',

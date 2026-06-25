@@ -7,7 +7,7 @@ interface FreezeLogoProps {
   style?: StyleProp<ImageStyle>;
 }
 
-const LOGO_ASPECT_RATIO = 3.4;
+const LOGO_ASPECT_RATIO = 2684 / 350;
 
 export function FreezeLogo({ height = 24, white = false, style }: FreezeLogoProps): React.JSX.Element {
   const source = white
@@ -17,7 +17,8 @@ export function FreezeLogo({ height = 24, white = false, style }: FreezeLogoProp
   return (
     <Image
       source={source}
-      style={[{ height, width: height * LOGO_ASPECT_RATIO, resizeMode: 'contain' }, style]}
+      resizeMode="contain"
+      style={[{ height, width: height * LOGO_ASPECT_RATIO }, style]}
     />
   );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -9,9 +9,20 @@ import type { AuthStackParamList } from '@/types/navigation';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'Welcome'>;
 
+const PARTNER_LOGOS = [
+  require('../../../assets/partners/mcdonalds.png'),
+  require('../../../assets/partners/yoze.png'),
+  require('../../../assets/partners/falstaff.png'),
+  require('../../../assets/partners/matsuri.png'),
+  require('../../../assets/partners/food-tea.png'),
+];
+
 export function WelcomeScreen({ navigation }: Props): React.JSX.Element {
   return (
     <LinearGradient colors={['#0E1166', colors.navy, colors.blue]} style={styles.container}>
+      <View style={[styles.glow, styles.glowTopRight]} pointerEvents="none" />
+      <View style={[styles.glow, styles.glowBottomLeft]} pointerEvents="none" />
+
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.center}>
           <FreezeLogo height={62} white style={styles.logo} />
@@ -22,6 +33,17 @@ export function WelcomeScreen({ navigation }: Props): React.JSX.Element {
             +300 partenaires restos, bars, sport, loisirs, beauté, etc.{'\n'}Rentabilisé dès la
             1ère visite.
           </Text>
+
+          <View style={styles.partnerRing}>
+            {PARTNER_LOGOS.map((source, index) => (
+              <Image
+                key={index}
+                source={source}
+                style={[styles.partnerAvatar, { marginLeft: index === 0 ? 0 : -10 }]}
+              />
+            ))}
+          </View>
+          <Text style={styles.partnerCaption}>+300 spots</Text>
         </View>
 
         <View style={styles.ctas}>
@@ -30,6 +52,9 @@ export function WelcomeScreen({ navigation }: Props): React.JSX.Element {
           </Pressable>
           <Pressable style={styles.secondaryButton} onPress={() => navigation.navigate('Login')}>
             <Text style={styles.secondaryButtonLabel}>Se connecter</Text>
+          </Pressable>
+          <Pressable style={styles.proLink} onPress={() => navigation.navigate('Login')}>
+            <Text style={styles.proLinkLabel}>Je suis un commerçant · Espace Pro →</Text>
           </Pressable>
         </View>
       </SafeAreaView>
@@ -40,6 +65,23 @@ export function WelcomeScreen({ navigation }: Props): React.JSX.Element {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  glow: {
+    position: 'absolute',
+    width: 280,
+    height: 280,
+    borderRadius: 140,
+    opacity: 0.5,
+  },
+  glowTopRight: {
+    top: -90,
+    right: -90,
+    backgroundColor: 'rgba(91,142,245,0.6)',
+  },
+  glowBottomLeft: {
+    bottom: -90,
+    left: -90,
+    backgroundColor: 'rgba(43,82,240,0.55)',
   },
   safeArea: {
     flex: 1,
@@ -53,6 +95,10 @@ const styles = StyleSheet.create({
   },
   logo: {
     marginBottom: 32,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.25,
+    shadowRadius: 32,
   },
   title: {
     fontWeight: '800',
@@ -72,6 +118,24 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 22,
     maxWidth: 300,
+  },
+  partnerRing: {
+    flexDirection: 'row',
+    marginTop: 28,
+  },
+  partnerAvatar: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    borderWidth: 2,
+    borderColor: 'rgba(255,255,255,0.9)',
+    backgroundColor: colors.white,
+  },
+  partnerCaption: {
+    marginTop: 8,
+    fontSize: 12,
+    fontWeight: '600',
+    color: 'rgba(255,255,255,0.65)',
   },
   ctas: {
     gap: 12,
@@ -101,5 +165,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     letterSpacing: -0.2,
+  },
+  proLink: {
+    alignItems: 'center',
+    paddingTop: 4,
+  },
+  proLinkLabel: {
+    color: 'rgba(255,255,255,0.6)',
+    fontSize: 13,
+    fontWeight: '600',
   },
 });
