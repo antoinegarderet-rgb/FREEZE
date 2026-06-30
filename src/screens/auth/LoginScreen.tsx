@@ -28,7 +28,15 @@ export function LoginScreen({ navigation }: Props): React.JSX.Element {
     try {
       await signIn(email, password);
     } catch (e) {
-      const message = e instanceof Error ? e.message : 'Email ou mot de passe incorrect.';
+      const raw = e instanceof Error ? e.message : '';
+      const message =
+        raw.includes('Invalid login') || raw.includes('invalid_credentials')
+          ? 'Email ou mot de passe incorrect.'
+          : raw.includes('Email not confirmed')
+            ? 'Confirme ton email avant de te connecter.'
+            : raw.startsWith('{') || raw.length > 120
+              ? 'Une erreur est survenue. Réessaie.'
+              : raw || 'Email ou mot de passe incorrect.';
       setError(message);
       showToast(message, 'error');
     } finally {
