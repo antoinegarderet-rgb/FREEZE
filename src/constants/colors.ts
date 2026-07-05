@@ -1,25 +1,2 @@
-export const colors = {
-  bg: '#F4F6FF',
-  s1: '#FFFFFF',
-  s2: '#EEF0FC',
-  s3: '#E4E7F8',
-  navy: '#1A1D8F',
-  navyD: '#12156A',
-  blue: '#2B52F0',
-  blueL: '#4D6EF5',
-  blueXL: '#EEF1FE',
-  green: '#00C46E',
-  greenBg: '#E7FAF1',
-  greenD: '#009A55',
-  red: '#E53E3E',
-  redBg: '#FEF2F2',
-  amber: '#F59E0B',
-  amberBg: '#FFFBEB',
-  purple: '#7C3AED',
-  text: '#0B0D2A',
-  t2: '#6167A0',
-  t3: '#9BA1CB',
-  border: 'rgba(26,29,143,0.09)',
-  borderM: 'rgba(26,29,143,0.16)',
-  white: '#FFFFFF',
-} as const;
+// Réexport depuis theme.ts — source unique de vérité
+export { colors } from './theme';
