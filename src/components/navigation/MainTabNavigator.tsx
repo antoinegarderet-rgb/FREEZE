@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 import { OffresScreen } from '@/screens/home/OffresScreen';
-import { CarteScreen } from '@/screens/home/CarteScreen';
+import { MapScreen } from '@/screens/home/MapScreen';
 import { ParrainageScreen } from '@/screens/parrainage/ParrainageScreen';
 import { ProfilScreen } from '@/screens/profile/ProfilScreen';
 import { colors } from '@/constants/colors';
@@ -85,9 +85,9 @@ export function MainTabNavigator(): React.JSX.Element {
       />
       <Tab.Screen
         name="Carte"
-        component={CarteScreen}
+        component={MapScreen}
         options={{
-          tabBarLabel: 'Ma carte',
+          tabBarLabel: 'Carte',
           tabBarIcon: ({ color }) => <MapPinIcon color={color} />,
         }}
       />
