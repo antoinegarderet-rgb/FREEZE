@@ -1,9 +1,15 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { colors } from '@/constants/colors';
+import { colors, fonts, shadows } from '@/constants/theme';
 import { PartnerLogo } from './PartnerLogo';
 import type { Offer } from '@/data/offers';
+
+const TAG_COLORS: Record<string, string> = {
+  Populaire: colors.navy,
+  Top:       colors.purple,
+  Nouveau:   colors.green,
+  Online:    '#0891B2',
+};
 
 interface OfferCardProps {
   offer: Offer;
@@ -13,44 +19,41 @@ interface OfferCardProps {
 }
 
 export function OfferCard({ offer, onPress, onFavorite, isFavorite = false }: OfferCardProps): React.JSX.Element {
+  const tagColor = offer.tag ? (TAG_COLORS[offer.tag] ?? colors.navy) : null;
+
   return (
-    <Pressable style={styles.card} onPress={onPress}>
-      {/* Image area */}
-      <View style={styles.imageArea}>
-        <LinearGradient
-          colors={[offer.bg, offer.bg2]}
-          style={StyleSheet.absoluteFill}
+    <Pressable style={[styles.card, shadows.card as object]} onPress={onPress}>
+      {/* Top area: logo + fav + tag */}
+      <View style={styles.logoArea}>
+        <PartnerLogo
+          logo={offer.logo}
+          name={offer.name}
+          initial={offer.initial}
+          bg={offer.bg}
+          size={56}
+          radius={16}
         />
-        <View style={styles.logoContainer}>
-          <PartnerLogo
-            logo={offer.logo}
-            name={offer.name}
-            initial={offer.initial}
-            bg={offer.bg}
-            size={52}
-            radius={14}
-          />
-        </View>
-        {offer.tag ? (
-          <View style={styles.tagChip}>
-            <Text style={styles.tagText}>{offer.tag}</Text>
+        {offer.tag && tagColor ? (
+          <View style={[styles.tagPill, { borderColor: tagColor }]}>
+            <Text style={[styles.tagText, { color: tagColor }]}>{offer.tag}</Text>
           </View>
         ) : null}
-        <Pressable style={styles.heartBtn} onPress={onFavorite} hitSlop={8}>
-          <Text style={styles.heartIcon}>{isFavorite ? '❤️' : '🤍'}</Text>
+        <Pressable style={styles.favBtn} onPress={onFavorite} hitSlop={8}>
+          <Text style={styles.favIcon}>{isFavorite ? '❤️' : '🤍'}</Text>
         </Pressable>
-        {offer.distance ? (
-          <View style={styles.distanceChip}>
-            <Text style={styles.distanceText}>📍 {offer.distance}</Text>
-          </View>
-        ) : null}
       </View>
+
       {/* Content */}
       <View style={styles.content}>
-        <Text style={styles.partnerName} numberOfLines={1}>{offer.name}</Text>
+        <Text style={styles.name} numberOfLines={1}>{offer.name}</Text>
         <Text style={styles.offerText} numberOfLines={2}>{offer.offer}</Text>
-        <View style={styles.savingChip}>
-          <Text style={styles.savingText}>💰 {offer.saving}</Text>
+        <View style={styles.footer}>
+          <View style={styles.savingPill}>
+            <Text style={styles.savingText}>{offer.saving}</Text>
+          </View>
+          {offer.distance ? (
+            <Text style={styles.distText}>{offer.distance}</Text>
+          ) : null}
         </View>
       </View>
     </Pressable>
@@ -60,95 +63,80 @@ export function OfferCard({ offer, onPress, onFavorite, isFavorite = false }: Of
 const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.s1,
-    borderRadius: 20,
-    overflow: 'hidden',
-    elevation: 3,
-    shadowColor: '#1A1D8F',
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 16,
-    shadowOpacity: 0.08,
+    borderRadius: 18,
     flex: 1,
     margin: 6,
-  },
-  imageArea: {
-    height: 110,
-    position: 'relative',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logoContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  tagChip: {
-    position: 'absolute',
-    top: 8,
-    left: 8,
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    borderRadius: 20,
-    paddingHorizontal: 8,
-    paddingVertical: 3,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.3)',
+    borderColor: colors.border,
+  },
+  logoArea: {
+    padding: 14,
+    paddingBottom: 10,
+    position: 'relative',
+  },
+  tagPill: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    borderRadius: 100,
+    borderWidth: 1.5,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    backgroundColor: colors.s1,
   },
   tagText: {
-    color: '#FFFFFF',
     fontSize: 10,
-    fontWeight: '700',
+    fontFamily: fonts.extraBold,
+    letterSpacing: 0.3,
   },
-  heartBtn: {
+  favBtn: {
     position: 'absolute',
-    bottom: 8,
-    right: 8,
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    backgroundColor: 'rgba(255,255,255,0.2)',
+    top: 10,
+    right: 10,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: colors.s2,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  heartIcon: {
-    fontSize: 13,
-  },
-  distanceChip: {
-    position: 'absolute',
-    bottom: 8,
-    left: 8,
-    backgroundColor: 'rgba(0,0,0,0.35)',
-    borderRadius: 10,
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-  },
-  distanceText: {
-    color: '#FFFFFF',
-    fontSize: 9,
-    fontWeight: '600',
-  },
+  favIcon: { fontSize: 14 },
   content: {
-    padding: 12,
+    paddingHorizontal: 14,
+    paddingBottom: 14,
     gap: 4,
   },
-  partnerName: {
-    fontSize: 14,
-    fontWeight: '800',
+  name: {
+    fontSize: 15,
+    fontFamily: fonts.extraBold,
     color: colors.text,
   },
   offerText: {
     fontSize: 12,
+    fontFamily: fonts.medium,
     color: colors.t2,
-    lineHeight: 16,
+    lineHeight: 17,
   },
-  savingChip: {
+  footer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 6,
+  },
+  savingPill: {
     backgroundColor: colors.greenBg,
     borderRadius: 8,
     paddingHorizontal: 8,
     paddingVertical: 3,
-    alignSelf: 'flex-start',
-    marginTop: 4,
   },
   savingText: {
-    color: colors.greenD,
+    fontFamily: fonts.bold,
     fontSize: 11,
-    fontWeight: '700',
+    color: colors.greenD,
+  },
+  distText: {
+    fontSize: 11,
+    fontFamily: fonts.semiBold,
+    color: colors.t3,
   },
 });
