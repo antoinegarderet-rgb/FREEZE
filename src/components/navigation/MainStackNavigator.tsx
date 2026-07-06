@@ -29,9 +29,9 @@ export function MainStackNavigator(): React.JSX.Element {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Tabs" component={MainTabNavigator} />
       <Stack.Screen name="OfferDetail" component={OfferDetailScreen} options={{ animation: 'slide_from_right' }} />
-      <Stack.Screen name="Scanner" component={ScannerScreen} options={{ animation: 'slide_from_bottom', presentation: 'modal' }} />
-      <Stack.Screen name="PostScan" component={PostScanScreen} options={{ animation: 'fade' }} />
-      <Stack.Screen name="Paywall" component={PaywallScreen} options={{ animation: 'slide_from_bottom', presentation: 'modal' }} />
+      <Stack.Screen name="Scanner" component={ScannerScreen} options={{ animation: 'slide_from_right' }} />
+      <Stack.Screen name="PostScan" component={PostScanScreen} options={{ animation: 'slide_from_right' }} />
+      <Stack.Screen name="Paywall" component={PaywallScreen} options={{ animation: 'slide_from_right' }} />
       <Stack.Screen name="Subscribed" component={SubscribedScreen} options={{ animation: 'fade' }} />
       <Stack.Screen name="Savings" component={SavingsScreen} options={{ animation: 'slide_from_right' }} />
       <Stack.Screen name="History" component={HistoryScreen} options={{ animation: 'slide_from_right' }} />
