@@ -23,7 +23,7 @@ export type MainStackParamList = {
   Tabs: undefined;
   OfferDetail: { offerId: number };
   Scanner: { scanContext: 'generic' | 'permanent' | 'discovery'; prevScreen: string };
-  PostScan: { scanContext?: 'permanent' | 'discovery'; partner?: string; offer?: string; alreadyUsed?: boolean };
+  PostScan: { scanContext?: 'permanent' | 'discovery'; partner?: string; offer?: string; alreadyUsed?: boolean; discovery?: boolean };
   Savings: undefined;
   History: undefined;
   Favoris: undefined;
