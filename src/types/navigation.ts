@@ -21,7 +21,7 @@ export type MainTabParamList = {
 
 export type MainStackParamList = {
   Tabs: undefined;
-  OfferDetail: { offerId: number };
+  OfferDetail: { offerId: number; from?: 'map' | 'offres' };
   Scanner: { scanContext: 'generic' | 'permanent' | 'discovery'; prevScreen: string };
   PostScan: { scanContext?: 'permanent' | 'discovery'; partner?: string; offer?: string; alreadyUsed?: boolean; discovery?: boolean };
   Savings: undefined;
