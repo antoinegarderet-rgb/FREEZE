@@ -129,6 +129,13 @@ export function OffresScreen(): React.JSX.Element {
                 );
               })}
             </ScrollView>
+
+            {/* Disclaimer */}
+            <View style={styles.disclaimer}>
+              <Text style={styles.disclaimerText}>
+                📍 Les offres sont valables dans les établissements participants indiqués. Consultez chaque offre pour retrouver les adresses concernées.
+              </Text>
+            </View>
           </>
         }
         renderItem={({ item }) => (
@@ -282,6 +289,19 @@ const styles = StyleSheet.create({
   },
   catLabelActive: {
     color: '#FFFFFF',
+  },
+  disclaimer: {
+    marginHorizontal: 16,
+    marginBottom: 12,
+    backgroundColor: colors.s2,
+    borderRadius: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+  },
+  disclaimerText: {
+    fontSize: 12,
+    color: colors.t2,
+    lineHeight: 17,
   },
   list: {
     paddingBottom: 24,

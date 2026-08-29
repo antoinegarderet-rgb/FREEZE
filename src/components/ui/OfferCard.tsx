@@ -2,6 +2,7 @@ import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { colors, fonts, shadows } from '@/constants/theme';
 import { PartnerLogo } from './PartnerLogo';
+import { useLocationLabel } from '@/hooks/freeze-hooks';
 import type { Offer } from '@/data/offers';
 
 const TAG_COLORS: Record<string, string> = {
@@ -20,6 +21,7 @@ interface OfferCardProps {
 
 export function OfferCard({ offer, onPress, onFavorite, isFavorite = false }: OfferCardProps): React.JSX.Element {
   const tagColor = offer.tag ? (TAG_COLORS[offer.tag] ?? colors.navy) : null;
+  const locationLabel = useLocationLabel(offer.locationCount);
 
   return (
     <Pressable style={[styles.card, shadows.card as object]} onPress={onPress}>
@@ -46,6 +48,7 @@ export function OfferCard({ offer, onPress, onFavorite, isFavorite = false }: Of
       {/* Content */}
       <View style={styles.content}>
         <Text style={styles.name} numberOfLines={1}>{offer.name}</Text>
+        <Text style={styles.locationText}>{locationLabel}</Text>
         <Text style={styles.offerText} numberOfLines={2}>{offer.offer}</Text>
         <View style={styles.footer}>
           <View style={styles.savingPill}>
@@ -110,6 +113,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: fonts.extraBold,
     color: colors.text,
+  },
+  locationText: {
+    fontSize: 11,
+    fontFamily: fonts.medium,
+    color: colors.t3,
   },
   offerText: {
     fontSize: 12,
